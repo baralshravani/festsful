@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Festful - Register</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="nav-brand">Festful</a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/events">All Events</a>
+                {% if session.get('user_id') %}
+                    {% if session.get('role') in ['admin', 'organizer'] %}
+                        <a href="/add_event">Add Event</a>
+                    {% endif %}
+                    <a href="/logout" class="btn-primary">Logout</a>
+                {% else %}
+                    <div class="nav-auth">
+                        <a href="/login">Login</a>
+                        <a href="/register" class="btn-primary">Get Started</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash{% if 'error' in message.lower() or 'invalid' in message.lower() %} error{% endif %}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        <div class="form-container">
+            <h1>🚀 Join the Festful Community</h1>
+            <p style="text-align: center; color: rgba(248, 249, 250, 0.7); margin-bottom: 2rem;">
+                Create your account and start discovering amazing college events
+            </p>
+            <form method="post">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@college.edu">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Create a strong password">
+                </div>
+
+                <div class="form-group">
+                    <label for="role">I am a</label>
+                    <select id="role" name="role" required>
+                        <option value="">Select your role</option>
+                        <option value="student">🎓 Student</option>
+                        <option value="organizer">🎪 Event Organizer</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" style="padding: 0.75rem 2rem; font-size: 1rem;">Create Account</button>
+                </div>
+
+                <p style="text-align: center; margin-top: 1.5rem; color: rgba(248, 249, 250, 0.6);">
+                    Already have an account? <a href="/login" style="color: var(--primary);">Login here</a>
+                </p>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Festful. Connecting students through amazing events. Made with ❤️ for college communities.</p>
+    </footer>
+</body>
+</html>

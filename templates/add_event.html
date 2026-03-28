@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event - Festful</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="nav-brand">Festful</a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/events">All Events</a>
+                {% if session.get('user_id') %}
+                    {% if session.get('role') in ['admin', 'organizer'] %}
+                        <a href="/add_event">Add Event</a>
+                    {% endif %}
+                    <a href="/logout" class="btn-primary">Logout</a>
+                {% else %}
+                    <div class="nav-auth">
+                        <a href="/login">Login</a>
+                        <a href="/register" class="btn-primary">Get Started</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash{% if 'error' in message.lower() or 'invalid' in message.lower() %} error{% endif %}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        <div class="form-container">
+            <h1>🎪 Create New Event</h1>
+            <form method="post">
+                <div class="form-group">
+                    <label for="title">Event Name</label>
+                    <input type="text" id="title" name="title" required placeholder="Enter event name">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" required placeholder="Describe your event..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="event_start">Date & Time</label>
+                    <input type="datetime-local" id="event_start" name="event_start" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="venue">Venue</label>
+                    <input type="text" id="venue" name="venue" required placeholder="Event location">
+                </div>
+
+                <div class="form-group">
+                    <label for="college">College Name</label>
+                    <input type="text" id="college" name="college" required placeholder="College/University name">
+                </div>
+
+                <div class="form-group">
+                    <label for="club_name">Club Name</label>
+                    <input type="text" id="club_name" name="club_name" required placeholder="Organizing club">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" style="padding: 0.75rem 2rem; font-size: 1rem;">Create Event</button>
+                    <a href="/" class="btn-secondary" style="margin-left: 1rem;">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Festful. Connecting students through amazing events. Made with ❤️ for college communities.</p>
+    </footer>
+</body>
+</html>

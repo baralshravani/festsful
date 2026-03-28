@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Events - Festful</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="nav-brand">Festful</a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/events">All Events</a>
+                {% if session.get('user_id') %}
+                    {% if session.get('role') in ['admin', 'organizer'] %}
+                        <a href="/add_event">Add Event</a>
+                    {% endif %}
+                    <a href="/logout" class="btn-primary">Logout</a>
+                {% else %}
+                    <div class="nav-auth">
+                        <a href="/login">Login</a>
+                        <a href="/register" class="btn-primary">Get Started</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash{% if 'error' in message.lower() or 'invalid' in message.lower() %} error{% endif %}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        <h2 class="section-title">🎪 All Events</h2>
+        <div class="events">
+            {% for event in events %}
+            <div class="event-card">
+                <h2>{{ event['title'] }}</h2>
+                <p>{{ event['description'] or 'Join us for an amazing experience!' }}</p>
+                <div class="event-meta">
+                    <div><strong>Date:</strong> {{ event['event_start'] }}</div>
+                    <div><strong>Venue:</strong> {{ event['venue'] or 'TBA' }}</div>
+                    <div><strong>Status:</strong>
+                        <span style="color: {% if event['status'] == 'upcoming' %}#28a745{% elif event['status'] == 'ongoing' %}#ffc107{% else %}#6c757d{% endif %}">
+                            {{ event['status'].title() }}
+                        </span>
+                    </div>
+                </div>
+                <div class="event-actions">
+                    {% if session.get('user_id') %}
+                        <form action="/register_event/{{ event['event_id'] }}" method="post" style="display:inline;">
+                            <button type="submit">Register Now</button>
+                        </form>
+                    {% else %}
+                        <a href="/login" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Login to Register</a>
+                    {% endif %}
+                    {% if session.get('role') in ['admin', 'organizer'] %}
+                    <form action="/delete_event/{{ event['event_id'] }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn-danger">Delete</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem;">
+                <h3 style="color: var(--gray); margin-bottom: 1rem;">No events found</h3>
+                <p style="color: var(--gray);">Check back soon for exciting new events!</p>
+                {% if session.get('role') in ['admin', 'organizer'] %}
+                    <a href="/add_event" class="btn-primary" style="margin-top: 1rem;">Add First Event</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Festful. Connecting students through amazing events. Made with ❤️ for college communities.</p>
+    </footer>
+</body>
+</html>

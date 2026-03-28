@@ -1,3 +1,59 @@
+/* Empty Events State */
+
+.empty-events {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 1rem;
+    gap: 1.2rem;
+    min-height: 300px;
+}
+
+.empty-events h3 {
+    color: var(--gray);
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.empty-events p {
+    color: var(--gray);
+    margin-bottom: 0;
+    font-size: 1.05rem;
+}
+
+.empty-btn {
+    margin-top: 1.5rem;
+    min-width: 180px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: inline-block;
+    text-align: center;
+}
+
+.empty-events h3 {
+    color: var(--gray);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.empty-events p {
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+}
+
+.empty-btn {
+    margin-top: 0.5rem;
+    min-width: 180px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: inline-block;
+    text-align: center;
+}
 /* Festful Event Platform - Modern UI */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
@@ -191,6 +247,7 @@ main {
     padding: 4rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: 80px;
 }
 
 .section-title {
